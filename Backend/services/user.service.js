@@ -8,8 +8,9 @@ module.exports.createUser = async ({
         throw new Error('All fields are required');
     }
 
+
     //to add user in db
-    const user = userModel.create({
+    const user = await userModel.create({
         fullname: {
             firstname,
             lastname
