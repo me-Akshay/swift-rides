@@ -12,8 +12,10 @@ module.exports.authUser=async(req,res,next)=>{
     //check for token 
     //either in cookies or in headers
     const token =req.cookies.token || req.headers.authorization?.split(' ')[1];
-
+    
     if(!token){
+        console.log("token hai hi naa")
+    //    console.log(req.headers.Authorization.split(' ')[1]);
         return res.status(401).json({message:"Unauthorized"});
     }
     //if the token is black-listed
@@ -31,6 +33,9 @@ module.exports.authUser=async(req,res,next)=>{
         const user=await userModel.findById(decoded._id);
 
         //putting the user info in req.user
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});  
+        }
         req.user=user;
         return next();
 
@@ -70,6 +75,9 @@ module.exports.authCaptain=async(req,res,next)=>{
         const captain=await capatainModel.findById(decoded._id);
 
         //putting the user info in req.user
+        if(!captain){
+            return res.status(401).json({message:"Unauthorized"});
+        }
         req.captain=captain;
         return next();
 

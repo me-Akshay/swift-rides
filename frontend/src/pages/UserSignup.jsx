@@ -1,31 +1,50 @@
-import React from 'react'
+import {React,useContext} from 'react'
 import { Link } from 'react-router-dom' 
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { UserDataContext } from '../context/UserContext'
+
 
 
 const UserSignup = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [userData, setUserData] = useState({});//holds the user info
+   // const [userData, setUserData] = useState({});//holds the user info
     const [fname, setFname] = useState('');
     const [lname, setLname] = useState('');
+    const navigate = useNavigate();
+    const {user,setUser} =useContext(UserDataContext);
 
 
 // handle submit
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     const newUserData = {
+      fullname: {
+        firstname: fname,
+        lastname: lname,
+    },
         email: email,
         password: password,
-        fullname: {
-            firstname: fname,
-            lastname: lname,
-        },
+
     };
-    setUserData(newUserData);
-    console.log(fname,lname,email,password);
-    console.log(newUserData);
+    //sending the data to backend
+    const base = import.meta.env.VITE_BASE_URL
+  
+    const res=await axios.post(`${base}/users/register`,newUserData);
+
+    if(res.status===201){
+
+      setUser(res.data.newUser);
+      localStorage.setItem('token',res.data.token);
+      navigate('/home');
+    
+    }
+
+   
+    
     // Clear input fields
     setFname('');
     setLname('');
