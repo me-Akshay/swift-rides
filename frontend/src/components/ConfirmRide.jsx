@@ -1,0 +1,54 @@
+import React from 'react'
+
+const ConfirmRide = (props) => {
+
+
+    const handleClick = () => {
+       props.setConfirmRidePanel(false)
+        props.setVehicleFound(true)
+    }
+
+
+
+  return (
+    <div>
+        <h5 onClick={() => {props.setConfirmRidePanel(false)} }  className='p-1 text-center w-[93%] absolute top-0'><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
+        <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
+
+        <div className='flex flex-col gap-2 justify-between items-center'>
+        <img className='h-40' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_384,w_576/v1712027307/assets/42/eb85c3-e2dc-4e95-a70d-22ee4f08015f/original/Screenshot-2024-04-01-at-9.08.07p.m..png" alt="" />
+        
+        {/* pickup */}
+        <div className='w-full flex items-center gap-3 border-b-2 mt-2 '>
+        <i className=" text-3xl ri-map-pin-2-fill"></i>
+        <div>
+            <h4 className='font-semibold text-xl'>562/11-A</h4>
+            <p>IIIT Koota Boys Hostel</p>
+        </div>
+        </div>
+        {/* drop */}
+        <div className='w-full flex items-center gap-3 border-b-2 mt-2 '>
+        <i className=" text-3xl ri-map-pin-2-fill"></i>
+        <div>
+            <h4 className='font-semibold text-xl'>562/11-A</h4>
+            <p>IIIT Koota Boys Hostel</p>
+        </div>
+        </div>
+        {/* price */}
+        <div className='w-full flex items-center gap-3  mt-2'>
+        <i className="text-3xl ri-money-rupee-circle-fill"></i>
+        <div>
+            <h4 className='font-semibold text-xl'>562/11-A</h4>
+            <p>IIIT Koota Boys Hostel</p>
+        </div>
+        </div>
+        <button onClick={handleClick} className='font-bold mt-3 bg-green-500 w-full py-2 px-13 rounded-lg'>Confirm Ride</button>
+        
+        </div>
+
+
+    </div>
+  )
+}
+
+export default ConfirmRide
