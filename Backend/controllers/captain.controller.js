@@ -75,7 +75,7 @@ module.exports.loginCaptain=async (req,res,next)=>{
 }
 
 module.exports.logoutCaptain=async (req,res,next)=>{
-
+    console.log("inside log-out")
     const token=req.cookies.token || req.headers.authorization?.split(' ')[1];
 
     //add the token into blacklist
