@@ -1,23 +1,72 @@
-import {React, useState,useRef} from 'react'
+import {React, useState,useRef,useContext,useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopUp'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
+import { CaptainDataContext } from '../context/CaptainContext'
+import { SocketContext } from '../context/SocketContext'
 
 const CaptainHome = () => {
 
 
-const [ridePopUpPanel, setRidePopUpPanel] = useState(true)
+const [ridePopUpPanel, setRidePopUpPanel] = useState(false)
 const ridePopUpPanelRef = useRef(null)
 
 const [confirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false)
 const confirmRidePopUpPanelRef = useRef(null)
 
 
+const {captain}=useContext(CaptainDataContext)
+const {socket}=useContext(SocketContext)
 
 
+//to send message to the server
+useEffect(() => {
+  //joining of captain with the socket
+  socket.emit('join', {
+      userId: captain._id,
+      userType: 'captain'
+  })
+  const updateLocation = () => {
+      
+      if (navigator.geolocation) {
+
+          navigator.geolocation.getCurrentPosition(position => {
+
+            console.log({
+              userId: captain._id,
+              location: {
+                  ltd: position.coords.latitude,
+                  lng: position.coords.longitude
+              }
+            });
+
+              socket.emit('update-location-captain', {
+                  userId: captain._id,
+                  location: {
+                      ltd: position.coords.latitude,
+                      lng: position.coords.longitude
+                  }
+              })
+          })
+      }
+  }
+
+  const locationInterval = setInterval(updateLocation, 10000)
+  updateLocation()
+
+  // return () => clearInterval(locationInterval)
+}, [])
+
+//to listen message fromt he server(ride-details)
+socket.on('new-ride', (data) => {
+  console.log("ride info for captain :", data);
+  // setRide(data)
+  setRidePopUpPanel(true)
+
+})
 
 
 //GSAP for ride Pop up panel
@@ -51,8 +100,6 @@ useGSAP(function () {
     })
   }
 }, [confirmRidePopUpPanel]);
-
-
 
 
 
@@ -116,6 +163,7 @@ useGSAP(function () {
 }
 
 export default CaptainHome
+
 
 
 

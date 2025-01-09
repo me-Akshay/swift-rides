@@ -13,7 +13,7 @@ if(!error.isEmpty()){
 
 const {fullname,email,password,vehicle,}=req.body;
 
-console.log(fullname,email,password,vehicle);
+//console.log(fullname,email,password,vehicle);
 
 //checking whether already capatain exists
 
@@ -70,6 +70,7 @@ module.exports.loginCaptain=async (req,res,next)=>{
     const token=captain.generateAuthToken();
      //store the token in cookie
      res.cookie('token',token)
+     console.log(captain)
     res.status(200).json({token,captain});
 
 }
@@ -85,6 +86,6 @@ module.exports.logoutCaptain=async (req,res,next)=>{
 }
 
 module.exports.getCaptainProfile=async (req,res,next)=>{
-
+    console.log(req.captain)
     res.status(200).json(req.captain);
 }

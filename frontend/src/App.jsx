@@ -16,11 +16,14 @@ import CaptainProtectWrapper from './pages/CaptainProtectWrapper'
 import CaptainLogout from './pages/CaptainLogout'
 import Riding from './pages/Riding'
 import CaptainRiding from './pages/CaptainRiding'
+import { CaptainDataContext } from './context/CaptainContext'
 
 
 const App = () => {
   // const user =useContext(UserDataContext);
   // console.log(user)
+
+ 
 
   return (
     <div>

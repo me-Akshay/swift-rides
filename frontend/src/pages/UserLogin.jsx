@@ -30,6 +30,7 @@ const handleSubmit = async(e) => {
       //{token,user}
       
       setUser(res.data.user);
+      
       localStorage.setItem('token',res.data.token);
       console.log("login token :" , res.data.token);
       navigate('/home');

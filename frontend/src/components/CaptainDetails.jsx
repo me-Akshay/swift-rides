@@ -1,13 +1,23 @@
-import React from 'react'
+import { React,useContext, useEffect }from 'react'
+
+import { CaptainDataContext } from '../context/CaptainContext'
 
 const CaptainDetails = () => {
+
+    const { captain, isLoading,tmp } = useContext(CaptainDataContext);
+
+    // {console.log("details",captain)}
+
+    
+
+
     return (
         <div>
             <div className='flex justify-between items-center mt-3'>
 
                 <div className='flex items-center justify-start gap-5 m-2'>
                     <img className='h-10 w-10 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuphMb4mq-EcVWhMVT8FCkv5dqZGgvn_QiA&s" alt="" />
-                    <h4 className='text-lg font-semibold'>Harsh Patel</h4>
+                    <h4 className='text-lg font-semibold'> {captain.fullname.firstname} </h4>
                 </div>
 
                 <div className='p-2' >
@@ -41,3 +51,6 @@ const CaptainDetails = () => {
 }
 
 export default CaptainDetails
+
+
+
