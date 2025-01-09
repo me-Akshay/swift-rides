@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import 'remixicon/fonts/remixicon.css'
@@ -12,6 +12,7 @@ import WaitingForDriver from '../components/WaitingForDriver'
 import {UserDataContext} from '../context/UserContext'
 import { SocketContext } from '../context/SocketContext';
 import axios from 'axios'
+import LiveTracking from '../components/LiveTracking'
 
 const Home = () => {
 
@@ -40,12 +41,37 @@ const Home = () => {
 
   const [vehicleType, setVehicleType] = useState('');
 
+  const [ride,setRide]=useState(null); //ride details on the user side(ride,cap,otp)
+
+  
+
   const { socket } = useContext(SocketContext)
   const { user } = useContext(UserDataContext)
 
   useEffect(() => {
     socket.emit("join", { userType: "user", userId: user._id })
 }, [ user ])
+
+
+
+
+socket.on('ride-confirmed', ride => {
+  //console.log("after confirmation from captain Ride confirmed in Home page")
+  setVehicleFound(false)
+  setWaitingForDriver(true)
+  setRide(ride)
+})
+
+const navigate = useNavigate();
+//after entering valid otp by captain ride started 
+socket.on('ride-started', ride => {
+  console.log("ride")
+  setWaitingForDriver(false)
+  navigate('/riding' , { state: { ride } }) // Updated navigate to include ride data
+})
+
+
+
 
 
   const handleSubmit = (e) => {
@@ -236,7 +262,8 @@ async function createRide(){
 
       {/* Image div background Screen */}
       <div className='h-screen w-screen  z-[-1]'>
-        <img className='w-full h-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" srcset="" />
+        {/* <img className='w-full h-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" srcset="" /> */}
+        <LiveTracking/>
       </div>
 
       {/* below Dialog box Div  and suggestion box */}
@@ -338,6 +365,7 @@ async function createRide(){
       {/* Waiting for driver Panel */}
       <div ref={waitingForDriverRef} className='fixed w-full  z-10 bottom-0  bg-white px-3 py-6 pt-12 '>
                 <WaitingForDriver
+                ride={ride}
                     setVehicleFound={setVehicleFound}
                     setWaitingForDriver={setWaitingForDriver}
                      />

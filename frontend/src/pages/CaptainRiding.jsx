@@ -1,14 +1,16 @@
 import {React, useState,useRef} from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useLocation } from 'react-router-dom'
 import FinishRide from '../components/FinishRide'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import LiveTracking from '../components/LiveTracking'
 
 const CaptainRiding = () => {
 
 const [finishRidePanel, setFinishRidePanel] = useState(false)
 const finishRidePanelRef = useRef(null)
-
+const location = useLocation()
+const rideData = location.state?.ride //abstracted the ride data from the location state
 
 //GSAP to open FinishRide panel
 useGSAP(function () {
@@ -41,7 +43,8 @@ useGSAP(function () {
     {/* map div */}
 
     <div className='h-4/5 '>
-      <img className='w-full h-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" srcset="" />
+      {/* <img className='w-full h-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" srcset="" /> */}
+      <LiveTracking/>
     </div>
 
     {/* drop-off div */}
@@ -55,7 +58,9 @@ useGSAP(function () {
 
     {/* Finish Ride panel  */}
     <div ref={finishRidePanelRef} className='fixed w-full h-screen z-10 bottom-0  bg-white  px-3 py-10 pt-12  translate-y-full '>
-      <FinishRide setFinishRidePanel={setFinishRidePanel} />
+      <FinishRide                     
+      ride={rideData}
+      setFinishRidePanel={setFinishRidePanel} /> 
       </div>
 
 

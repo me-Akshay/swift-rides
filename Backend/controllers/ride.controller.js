@@ -13,9 +13,11 @@ module.exports.createRide = async (req, res) => {
         const {pickup,destination,vehicleType}=req.body;
     try{
         //ride created by the user
+
+ 
         const ride=await rideService.createRide({user:req.user._id,pickup,destination,vehicleType});
         res.status(201).json(ride);
-        console.log("inside create-ride ,ride created")
+        // console.log("inside create-ride ,ride created")
 
         //get the coordinates of the pickup location
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup);
@@ -31,10 +33,10 @@ module.exports.createRide = async (req, res) => {
         //sending the ride message to all the captains In radius
         const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user');
         //   console.log("ride with user",rideWithUser)
-      console.log("captains in radius",captainsInRadius)
+      //console.log("captains in radius",captainsInRadius)
         captainsInRadius.map(captain=>{
             
-            console.log("message is going to this captain ", captain.socketId)
+           // console.log("message is going to this captain ", captain.socketId)
             //sending msg through socket
             sendMessageToSocketId(captain.socketId,{
                 event:'new-ride',
@@ -79,3 +81,86 @@ module.exports.getFare = async (req, res, next) => {
 
 }
 
+//confirm ride
+module.exports.confirmRide = async (req, res) => {
+
+    //rideId,captainId (input)
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId } = req.body;
+    //if it is captain protected route then req.captain will hold captain details
+
+    try {
+    
+       // console.log("inside confirm ride route")
+        const ride = await rideService.confirmRide({ rideId, captain: req.captain }); //this ride var will contain all info abt usr,captain,ride,otp
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-confirmed',
+            data: ride
+        })
+
+        return res.status(200).json(ride);
+    } catch (err) {
+
+        console.log(err);
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+//start-ride (otp validation section)
+
+module.exports.startRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId, otp } = req.query;
+
+    try {
+        const ride = await rideService.startRide({ rideId, otp, captain: req.captain });
+
+       console.log("inside ride-start")
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        })
+
+        return res.status(200).json(ride);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+
+//ending the ride
+module.exports.endRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId } = req.body;
+
+    try {
+        const ride = await rideService.endRide({ rideId, captain: req.captain });
+
+        console.log("inside ride-end")
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-ended',
+            data: ride
+        })
+
+
+
+        return res.status(200).json(ride);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    } 
+}
