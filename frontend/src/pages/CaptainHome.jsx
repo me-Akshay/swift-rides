@@ -137,7 +137,7 @@ useGSAP(function () {
 
       <div>
 
-        <Link to='/captain/logout' className='fixed right-2 top-1 h-10 w-10 bg-white rounded-full flex items-center justify-center' >
+        <Link to='/captain/logout' className='fixed left-2 top-1 h-10 w-10 bg-white rounded-full flex items-center justify-center z-10' >
           <i class="ri-logout-box-line"></i>
         </Link>
 

@@ -77,7 +77,7 @@ setCaptain(data.captain)
 
     <div className='p-7 h-screen flex flex-col justify-between'>
     <div>
-    <img  className='w-20  mb-8'  src='https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png' />
+    <img  className='w-20  mb-8'  src='https://png.pngtree.com/png-vector/20220527/ourmid/pngtree-online-taxi-booking-travel-service-flat-design-illustration-via-mobile-app-png-image_4750926.png' />
 
 
 <form onSubmit={handleSubmit}>

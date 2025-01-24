@@ -48,7 +48,7 @@ module.exports.loginCaptain=async (req,res,next)=>{
 
     const errors=validationResult(req);
     if(!errors.isEmpty()){
-        console.log("Sdfsdf")
+        //console.log("Sdfsdf")
         return res.status(400).json({errors:errors.array()});
     }
 
@@ -88,4 +88,19 @@ module.exports.logoutCaptain=async (req,res,next)=>{
 module.exports.getCaptainProfile=async (req,res,next)=>{
     console.log(req.captain)
     res.status(200).json(req.captain);
+}
+
+module.exports.updateCaptainRidecntAccepted=async (req,res,next)=>{
+
+   const  capid=req.captain._id;
+   //console.log(req.captain.fullname.firstname);
+        const captain  = await captainService.updateRideCntAccepted(capid);
+            res.status(200).json({message:"success"});
+}
+
+module.exports.updateCaptainRidecntRejected=async(req,res,next)=>{
+    const  capid=req.captain._id;
+   // console.log(req.captain.fullname.firstname);
+         const captain  = await captainService.updateRideCntRejected(capid);
+             res.status(200).json({message:"success"});
 }

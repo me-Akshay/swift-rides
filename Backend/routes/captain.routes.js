@@ -33,6 +33,11 @@ router.get('/logout',authMiddleware.authCaptain,captainController.logoutCaptain)
 
 router.get('/profile',authMiddleware.authCaptain,captainController.getCaptainProfile)
 
+//update ridecnt accepted
+router.put('/update-ridecnt-accepted',authMiddleware.authCaptain,captainController.updateCaptainRidecntAccepted);
+
+//update ridecnt rejected
+router.put('/update-ridecnt-rejected',authMiddleware.authCaptain,captainController.updateCaptainRidecntRejected);
 
 
 

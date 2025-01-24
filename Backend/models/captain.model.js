@@ -55,6 +55,15 @@ const captainSchema = new mongoose.Schema({
         enum:['active','inactive'],
         default:'inactive'
     },
+    ridesCnt_accepted:{
+      type:Number,
+      default:0
+    },
+    ridesCnt_rejected:{
+        type:Number,
+        default:0
+      },
+
     location:{
         ltd:{
             type: Number,

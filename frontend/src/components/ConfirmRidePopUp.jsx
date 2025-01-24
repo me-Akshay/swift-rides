@@ -20,6 +20,14 @@ const ConfirmRidePopUp = (props) => {
             }
         })
 
+        //logic for increaing ridecnt-accepted  in the captain history
+        const res1=await axios.put(`${import.meta.env.VITE_BASE_URL}/captains/update-ridecnt-accepted`,{},{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+
         if (response.status === 200) {
              props.setConfirmRidePopUpPanel(false)
             props.setRidePopUpPanel(false)
@@ -29,7 +37,14 @@ const ConfirmRidePopUp = (props) => {
        
     }
 
-    const handleClickIgnore = () => {
+    const handleClickIgnore = async() => {
+        //logic for adding one rejected ride
+        const res1=await axios.put(`${import.meta.env.VITE_BASE_URL}/captains/update-ridecnt-rejected`,{},{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
         props.setConfirmRidePopUpPanel(false);
         props.setRidePopUpPanel(false);
     }

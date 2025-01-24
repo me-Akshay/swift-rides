@@ -21,29 +21,29 @@ const CaptainDetails = () => {
                 </div>
 
                 <div className='p-2' >
-                    <h4 className='text-xl font-semibold'>$233.6</h4>
-                    <p>Earned Today</p>
+                    <h4 className='text-xl text-center font-semibold'>{captain.vehicle.capacity}</h4>
+                    <p>Max Capacity</p>
                 </div>
 
             </div>
 
-            <div className='flex justify-center items-center  gap-5 mt-4  p-2 bg-gray-100 rounded-full'>
+            <div className='flex justify-center items-center  gap-12 mt-4  p-2 bg-gray-100 rounded-full'>
 
                 <div className='text-center'>
-                    <i className="text-2xl ri-time-line"></i>
-                    <h5 className='text-lg font-medium'>10.4</h5>
-                    <p>Hours Online</p>
+                   <i className=" text-2xl ri-taxi-fill"></i>
+                    <h5 className='text-lg font-medium'>{captain.ridesCnt_accepted}</h5>
+                    <p>Rides Accepted </p>
                 </div>
                 <div className='text-center'>
+                <i className=" text-2xl ri-walk-line"></i>
+                    <h5 className='text-lg font-medium'>{captain.ridesCnt_rejected}</h5>
+                    <p>Rides Rejected</p>
+                </div>
+                {/* <div className='text-center'>
                     <i className="text-2xl ri-speed-up-line"></i>
                     <h5 className='text-lg font-medium'>10.4</h5>
                     <p>Hours Online</p>
-                </div>
-                <div className='text-center'>
-                    <i className="text-2xl ri-speed-up-line"></i>
-                    <h5 className='text-lg font-medium'>10.4</h5>
-                    <p>Hours Online</p>
-                </div>
+                </div> */}
 
             </div>
         </div>

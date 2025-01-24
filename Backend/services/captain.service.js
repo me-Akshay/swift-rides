@@ -31,3 +31,29 @@ const captain = await captainModel.create({
 return captain
 
 }
+
+//for updating ride cnt of captain
+
+module.exports.updateRideCntAccepted=async (captainId)=>{
+
+    const Updatedcaptain=await captainModel.findByIdAndUpdate(captainId,
+       { $inc:{ridesCnt_accepted:1}},
+        { new: true }
+    );
+
+
+    return Updatedcaptain;
+
+}
+
+module.exports.updateRideCntRejected=async (captainId)=>{
+
+    const Updatedcaptain=await captainModel.findByIdAndUpdate(captainId,
+       { $inc:{ridesCnt_rejected:1}},
+        { new: true }
+    );
+
+
+    return Updatedcaptain;
+
+}
