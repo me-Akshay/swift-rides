@@ -87,7 +87,7 @@ module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
 
     // radius in km
 
-    console.log("inside get captains in radius");
+   // console.log("inside get captains in radius");
 
     const captains = await captainModel.find({
         location: {

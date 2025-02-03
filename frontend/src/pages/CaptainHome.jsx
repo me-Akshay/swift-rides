@@ -40,14 +40,6 @@ useEffect(() => {
 
           navigator.geolocation.getCurrentPosition(position => {
 
-            // console.log({
-            //   userId: captain._id,
-            //   location: {
-            //       ltd: position.coords.latitude,
-            //       lng: position.coords.longitude
-            //   }
-            // });
-
               socket.emit('update-location-captain', {
                   userId: captain._id,
                   location: {
@@ -67,7 +59,7 @@ useEffect(() => {
 
 //to listen message fromt he server(ride-details)
 socket.on('new-ride', (data) => {
-  console.log("ride info for captain :", data);
+ // console.log("ride info for captain :", data);
    setRide(data)
   setRidePopUpPanel(true)
 

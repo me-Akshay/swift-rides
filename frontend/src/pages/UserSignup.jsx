@@ -1,147 +1,157 @@
-import {React,useContext} from 'react'
-import { Link } from 'react-router-dom' 
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { UserDataContext } from '../context/UserContext'
-
-
+import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { UserDataContext } from '../context/UserContext';
 
 const UserSignup = () => {
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-   // const [userData, setUserData] = useState({});//holds the user info
-    const [fname, setFname] = useState('');
-    const [lname, setLname] = useState('');
-    const navigate = useNavigate();
-    const {user,setUser} =useContext(UserDataContext);
-
-
-// handle submit
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newUserData = {
-      fullname: {
-        firstname: fname,
-        lastname: lname,
-    },
-        email: email,
-        password: password,
-
-    };
-    //sending the data to backend
-    const base = import.meta.env.VITE_BASE_URL
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [roles, setRoles] = useState([]);
   
-    const res=await axios.post(`${base}/users/register`,newUserData);
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserDataContext);
 
-    if(res.status===201){
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // try {
+    //   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, {
+    //     fullname: { firstname: firstName, lastname: lastName },
+    //     email,
+    //     password,
+    //     roles
+    //   });
 
-      setUser(res.data.newUser);
-      localStorage.setItem('token',res.data.token);
-      navigate('/home');
-    
-    }
+    //   if (response.status === 201) {
+    //     setUser(response.data.newUser);
+    //     localStorage.setItem('token', response.data.token);
+    //     navigate('/home');
+    //   }
+    // } catch (error) {
+    //   console.error('Registration failed:', error);
+    // }
 
-   
-    
-    // Clear input fields
-    setFname('');
-    setLname('');
+    // Clear form fields
+    setFirstName('');
+    setLastName('');
     setEmail('');
     setPassword('');
+    setRoles([]);
+  };
 
-}
-
-
-
-
-
-
-
-
-
-
+  const handleRoleChange = (role) => {
+    setRoles(prev => prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]);
+  };
 
   return (
-    <div className='p-7 h-screen flex flex-col justify-between'>
-        <div>
-        <img  className='w-20  mb-8'  src='https://png.pngtree.com/png-vector/20220527/ourmid/pngtree-online-taxi-booking-travel-service-flat-design-illustration-via-mobile-app-png-image_4750926.png' />
-       
-
-
-<form onSubmit={handleSubmit}>
-    {/* Full name  */}
-    <div >
-    <h3 className='text-base  font-medium' >What's your Name?</h3>
-{/* first name */}
-<div className='flex  gap-4'>
-<input  
-required
-className='bg-[#EEEFEE]  w-1/2 mb-5 py-1 px-4 rounded  border  mt-2 text-base :placeholder text-base' 
-type="text"
-value={fname}
-onChange={(e) => {setFname(e.target.value)}}
-  placeholder='Firstname' />
-
-{/* Last name */}
-<input  
-required
-className='bg-[#EEEFEE] w-1/2  mb-5 py-2 px-4 rounded  border  mt-2 text-lg :placeholder text-base' 
-type="text"
-value={lname}
-onChange={(e) => {setLname(e.target.value)}}
-  placeholder='Lastname' />
-</div>
-
-
-    </div>
-
-
-
-<h3 className='text-base  font-medium mt--1' >What's your email</h3>
-{/* email */}
-<input  
-required
-className='bg-[#EEEFEE]  mb-5 py-2 px-4 rounded  border w-full mt-2 text-base :placeholder text-base' 
-type="email"
-value={email}
-onChange={(e) => {setEmail(e.target.value)}}
-  placeholder='abc@example.com' />
-<h3 className='text-base  font-medium mt-'>Password</h3>
-{/* password */}
-<input 
-required
-className='bg-[#EEEFEE]  mb-5 py-2 px-4 rounded  border w-full mt-4 text-base :placeholder text-base' 
-value={password}
-onChange={(e) => {setPassword(e.target.value)}}
-type="password"
-
-placeholder='password' />
-
-<button
-className='bg-[#111]  mb-5 py-2 px-4 rounded   w-full mt-4 text-lg text-white font-semibold' >Signup</button>
-
- <p className='text-center'> Already have an account?  <Link to="/login" className='text-blue-600'>Sign in </Link>  </p>
-
-
-</form>
-
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-8">
+      <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-10">
+        <div className="text-center mb-8">
+          <img 
+            className="w-32 mx-auto mb-6"
+            src="https://png.pngtree.com/png-vector/20220527/ourmid/pngtree-online-taxi-booking-travel-service-flat-design-illustration-via-mobile-app-png-image_4750926.png" 
+            alt="Company Logo"
+          />
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Create Your Account</h1>
+          <p className="text-gray-600">Join our platform to get started</p>
         </div>
 
-        <div>
-          <p className='text-xs'>
-          This site is protected by reCAPTCHA and the Google
-Policy and Terms of Service apply.
-Privacy
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block text-lg font-medium text-gray-700 mb-2">First Name</label>
+              <input
+                required
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="John"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-medium text-gray-700 mb-2">Last Name</label>
+              <input
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Doe"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+          </div>
 
+          <div>
+            <label className="block text-lg font-medium text-gray-700 mb-2">Email Address</label>
+            <input
+              required
+              type="email"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="john.doe@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
+          <div>
+            <label className="block text-lg font-medium text-gray-700 mb-2">Password</label>
+            <input
+              required
+              type="password"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-4">
+            <label className="block text-lg font-medium text-gray-700">Account Type</label>
+            <div className="grid grid-cols-3 gap-4">
+              {['admin', 'editor', 'viewer'].map((role) => (
+                <label 
+                  key={role}
+                  className={`flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition-colors ${
+                    roles.includes(role) 
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-blue-300'}`}
+                >
+                  <input
+                    type="checkbox"
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                    checked={roles.includes(role)}
+                    onChange={() => handleRoleChange(role)}
+                  />
+                  <span className="capitalize text-gray-700">{role}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+          >
+            Create Account
+          </button>
+        </form>
+
+        <p className="text-center mt-8 text-gray-600">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-600 hover:underline font-semibold">
+            Sign in here
+          </Link>
+        </p>
+
+        <div className="mt-8 border-t pt-6 text-center">
+          <p className="text-sm text-gray-500">
+            By creating an account, you agree to our<br />
+            <a href="#" className="text-blue-600 hover:underline">Terms of Service</a> and{' '}
+            <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
           </p>
         </div>
-
-     
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserSignup
+export default UserSignup;

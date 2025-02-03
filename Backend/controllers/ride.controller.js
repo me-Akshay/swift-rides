@@ -81,7 +81,7 @@ module.exports.getFare = async (req, res, next) => {
 
 }
 
-//confirm ride
+//confirm ride by the captain
 module.exports.confirmRide = async (req, res) => {
 
     //rideId,captainId (input)
@@ -125,7 +125,7 @@ module.exports.startRide = async (req, res) => {
     try {
         const ride = await rideService.startRide({ rideId, otp, captain: req.captain });
 
-       console.log("inside ride-start")
+      // console.log("inside ride-start")
 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-started',
@@ -151,7 +151,8 @@ module.exports.endRide = async (req, res) => {
     try {
         const ride = await rideService.endRide({ rideId, captain: req.captain });
 
-        console.log("inside ride-end")
+        //console.log("inside ride-end")
+        //sends the finish ride message to the user 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-ended',
             data: ride

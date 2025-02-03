@@ -128,14 +128,14 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
         throw new Error('Invalid OTP');
     }
 
-    console.log("service,reached till otp validation")
+    //console.log("service,reached till otp validation")
     await rideModel.findOneAndUpdate({
         _id: rideId
     }, {
         status: 'ongoing'
     })
 
-    console.log("service,status updated for this ride in db")
+  //  console.log("service,status updated for this ride in db")
 
 
     return ride;

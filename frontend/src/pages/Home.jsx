@@ -65,7 +65,7 @@ socket.on('ride-confirmed', ride => {
 const navigate = useNavigate();
 //after entering valid otp by captain ride started 
 socket.on('ride-started', ride => {
-  console.log("ride")
+ // console.log("ride")
   setWaitingForDriver(false)
   navigate('/riding' , { state: { ride } }) // Updated navigate to include ride data
 })
@@ -240,7 +240,7 @@ async function createRide(){
     }
   })
 
-  console.log(response.data)
+  //console.log(response.data)
 
 }
 
