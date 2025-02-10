@@ -66,8 +66,9 @@ const LiveTracking = () => {
                 center={currentPosition }
                 zoom={15}
             >
-                <Marker position={currentPosition} />
-                {/* {currentPosition && currentPosition.lat && currentPosition.lng && (
+                <Marker position={currentPosition} />   
+                  
+                {/* cmt uncmt it{currentPosition && currentPosition.lat && currentPosition.lng && (
     <Marker position={currentPosition} />
 )} */}
             </GoogleMap>
